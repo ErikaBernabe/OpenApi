@@ -4,7 +4,8 @@ const app = express();
 const cors = require('cors');
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
-const port = process.env.PORT || 8082
+ 
+const port = process.env.PORT || 8082;
  
 const swaggerOptions = {
     definition: {
@@ -14,7 +15,7 @@ const swaggerOptions = {
     version: '1.0.0',
     },
     servers:[
-    { url: "http://localhost:{port}" }
+    { url: "http://localhost: ${port}" }
     ],
     },
     apis: [`${path.join(__dirname,"index.js")}`],
@@ -37,12 +38,10 @@ app.get('/empleado', (req, res) => {
  
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocs));
- 
-app.get("/api-spec",(req, res)=>{
-    res.json(swaggerDocs);
-})
- 
-app.listen(8082, () => {
-    console.log('Server Express escuchando en puerto ${port}');
+app.get("/api-spec", (req, res) => {
+    res.json(swaggerDocs); // Devuelve la documentación Swagger en formato JSON
 });
  
+app.listen(port, () => {
+    console.log('Server Express escuchando en puerto ${port}');
+});
